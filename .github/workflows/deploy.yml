@@ -8,6 +8,16 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# one deployment at a time
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
 jobs:
   build_and_verify:
     runs-on: ubuntu-latest
@@ -29,13 +39,36 @@ jobs:
         run: npm run verify
 
       - name: Production build
-        run: npm run build
+        # GitHub Pages serves the app from https://<owner>.github.io/hrms/
+        run: ng build --configuration production --base-href /hrms/
 
       - name: Add the SPA fallback for deep links
-        run: npm run postbuild
+        run: npm run postbuild:pages
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist/hrms/browser
+
+  deploy_github_pages:
+    needs: build_and_verify
+    runs-on: ubuntu-latest
+    name: Deploy to GitHub Pages
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
 
   deploy_azure_static_web_apps:
     needs: build_and_verify
+    # The Azure Static Web App behind this repository is no longer provisioned
+    # (the deployment token is rejected by the content server). The job is kept
+    # so that a re-provisioned Static Web App is picked up automatically — it
+    # does not fail the workflow while the target is missing.
+    continue-on-error: true
     if: github.event_name == 'push' || (github.event_name == 'pull_request' && github.event.action != 'closed')
     runs-on: ubuntu-latest
     name: Deploy to Azure Static Web Apps
@@ -68,20 +101,3 @@ jobs:
           # the Angular 20 build writes to dist/hrms/browser — keep this in sync
           # with the "Output location" of the Azure Static Web App.
           output_location: "dist/hrms/browser"
-
-  close_pull_request_job:
-    if: github.event_name == 'pull_request' && github.event.action == 'closed'
-    runs-on: ubuntu-latest
-    name: Close Pull Request Job
-    steps:
-      - name: Close Pull Request
-        if: github.event_name == 'pull_request' && github.event.action == 'closed'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: 'Pull Request closed and the deployment was cancelled.'
-            })

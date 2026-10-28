@@ -25,6 +25,18 @@ npm run serve             # serves the build on http://localhost:4200
 npm run verify
 ```
 
+### Deployment
+
+| Target | Command |
+| --- | --- |
+| GitHub Pages (`/hrms/`) | `ng build --base-href /hrms/` then `npm run postbuild:pages` |
+| Root of a host (`/`) | `npm run build` then `npm run postbuild` |
+
+`.github/workflows/deploy.yml` builds the application, runs the calculation
+verification and publishes it to GitHub Pages on every push to `main`.
+The `404.html` fallback keeps deep links such as `/hrms/attendance/job-card`
+working on a static host that does not rewrite unknown paths.
+
 No backend is required. Data lives in a signal store and is persisted in `localStorage`
 (key `hrms-db-v3`). **Reset demo data** in the sidebar rebuilds the seed dataset.
 
