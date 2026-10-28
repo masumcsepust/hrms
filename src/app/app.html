@@ -1,0 +1,80 @@
+<div class="shell" [class.collapsed]="collapsed()">
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo">HB</div>
+      <div class="brand-text">
+        <div class="brand-name">Hana HRM</div>
+        <div class="brand-sub">Human Resource Management</div>
+      </div>
+    </div>
+
+    <nav class="nav">
+      @for (group of groups; track group.title) {
+        @if (visible(group).items.length) {
+          <div class="nav-group">
+            <div class="nav-title">{{ group.title }}</div>
+            @for (item of visible(group).items; track item.link) {
+              <a
+                class="nav-item"
+                [routerLink]="item.link"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: item.link === '/dashboard' }"
+                (click)="mobileOpen.set(false)"
+              >
+                <app-icon [name]="item.icon" [size]="16" />
+                <span class="nav-label">{{ item.label }}</span>
+                @if (item.badge && item.badge() > 0) {
+                  <span class="nav-badge">{{ item.badge() }}</span>
+                }
+              </a>
+            }
+          </div>
+        }
+      }
+    </nav>
+
+    <div class="sidebar-foot">
+      <button class="btn btn-sm btn-ghost" style="color: #c7d3e4" (click)="resetData()">
+        <app-icon name="refresh" [size]="14" /> Reset demo data
+      </button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <header class="topbar">
+      <button class="btn btn-icon btn-ghost" (click)="collapsed.set(!collapsed())">
+        <app-icon name="list" [size]="18" />
+      </button>
+
+      <div class="topbar-right">
+        <div class="env-chip">
+          <span class="dot" style="color: #16a34a"></span>
+          Asia/Dhaka
+        </div>
+
+        <div class="user-switch">
+          <app-icon name="user" [size]="15" />
+          <select
+            [value]="store.currentUserId"
+            (change)="switchUser($any($event.target).value)"
+            title="Switch signed-in user (NFR-1 role based access)"
+          >
+            @for (u of store.users.all(); track u.id) {
+              <option [value]="u.id">{{ u.name }} — {{ u.role }}</option>
+            }
+          </select>
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <router-outlet />
+    </main>
+  </div>
+</div>
+
+<div class="toast-host">
+  @for (t of toast.toasts(); track t.id) {
+    <div class="toast" [class]="'toast ' + t.kind" (click)="toast.dismiss(t.id)">{{ t.text }}</div>
+  }
+</div>
