@@ -40,7 +40,7 @@ jobs:
 
       - name: Production build
         # GitHub Pages serves the app from https://<owner>.github.io/hrms/
-        run: ng build --configuration production --base-href /hrms/
+        run: npm run build:pages
 
       - name: Add the SPA fallback for deep links
         run: npm run postbuild:pages

@@ -10,7 +10,8 @@
     "verify": "node tools/verify-calc.mjs",
     "postbuild": "node tools/postbuild-404.mjs dist/hrms/browser /",
     "serve": "python3 tools/serve.py 4200",
-    "postbuild:pages": "node tools/postbuild-404.mjs dist/hrms/browser /hrms/"
+    "postbuild:pages": "node tools/postbuild-404.mjs dist/hrms/browser /hrms/",
+    "build:pages": "ng build --configuration production --base-href /hrms/"
   },
   "prettier": {
     "printWidth": 100,
