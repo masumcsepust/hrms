@@ -1,0 +1,23 @@
+<a class="skip-link" href="#main">Skip to content</a>
+
+<app-nav />
+
+<main id="main">
+  <app-hero />
+  <app-bento />
+  <app-workflow />
+  <app-metrics />
+  <app-orgmap />
+  <app-stories />
+  <app-pricing />
+  <app-faq />
+  <app-cta />
+</main>
+
+<app-footer />
+
+@if (showTop()) {
+  <button class="to-top" (click)="toTop()" aria-label="Back to top">
+    <app-icon name="arrow" [size]="17" />
+  </button>
+}

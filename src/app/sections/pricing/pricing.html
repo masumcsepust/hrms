@@ -1,0 +1,84 @@
+<section class="section pricing" id="pricing">
+  <div class="container">
+    <header class="sec-head sec-head--center">
+      <p class="sec-head__index">05 — Pricing</p>
+      <div class="sec-head__row sec-head--center">
+        <h2 class="display-l">Priced per person,<br />not per headache.</h2>
+        <p class="sec-head__desc">
+          Every plan includes the org chart, documents, leave and onboarding. You only pay more
+          when your hiring gets serious.
+        </p>
+      </div>
+
+      <div class="toggle" role="group" aria-label="Billing period">
+        <span class="toggle__ind" [class.is-yearly]="yearly()"></span>
+        <button class="toggle__btn" [class.is-active]="!yearly()" (click)="setBilling('monthly')">
+          Monthly
+        </button>
+        <button class="toggle__btn" [class.is-active]="yearly()" (click)="setBilling('yearly')">
+          Yearly
+          <span class="toggle__save">−20%</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="plans">
+      @for (p of plans; track p.name; let i = $index) {
+        <article
+          class="plan"
+          [class.plan--featured]="p.featured"
+          [vReveal]="i * 90"
+        >
+          @if (p.featured) {
+            <span class="plan__pin">Most popular</span>
+          }
+
+          <header class="plan__head">
+            <h3 class="plan__name">{{ p.name }}</h3>
+            <p class="plan__blurb">{{ p.blurb }}</p>
+          </header>
+
+          <div class="plan__price">
+            @if (price(p)) {
+              <span class="plan__currency">$</span>
+              <span class="plan__amount">{{ price(p) }}</span>
+              <span class="plan__unit">{{ p.unit }}</span>
+            } @else {
+              <span class="plan__amount plan__amount--custom">Custom</span>
+            }
+          </div>
+          <p class="plan__note">
+            {{ p.note }}
+            @if (yearly() && price(p)) {
+              <span class="plan__billed"> · billed yearly</span>
+            }
+          </p>
+
+          <a
+            class="btn plan__cta"
+            [class.btn--coral]="p.featured"
+            [class.btn--ghost]="!p.featured"
+            href="#cta"
+          >
+            {{ p.cta }}
+            <span class="btn__arrow" aria-hidden="true"><app-icon name="arrow" [size]="15" /></span>
+          </a>
+
+          <ul class="plan__features">
+            @for (f of p.features; track f) {
+              <li>
+                <span class="plan__tick"><app-icon name="check" [size]="12" /></span>
+                <span [innerHTML]="f"></span>
+              </li>
+            }
+          </ul>
+        </article>
+      }
+    </div>
+
+    <p class="plans__foot">
+      All plans include unlimited guests, free data export, and our 30-day trial. Prices exclude
+      tax. <a href="#faq">Read the details</a>
+    </p>
+  </div>
+</section>

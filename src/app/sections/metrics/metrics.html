@@ -1,0 +1,20 @@
+<section class="metrics grain">
+  <div class="container">
+    <p class="metrics__kicker">Teams switch, then stay</p>
+    <div class="metrics__grid">
+      @for (m of metrics; track m.label; let i = $index) {
+        <div class="metric" [vReveal]="i * 90">
+          <p class="metric__value">
+            <span
+              [vCount]="m.value"
+              [decimals]="m.decimals"
+              [prefix]="m.prefix"
+              [suffix]="m.suffix"
+            ></span>
+          </p>
+          <p class="metric__label">{{ m.label }}</p>
+        </div>
+      }
+    </div>
+  </div>
+</section>

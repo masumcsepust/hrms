@@ -1,0 +1,164 @@
+@use '../../../styles/tokens' as *;
+
+.stories {
+  background: var(--paper-2);
+}
+.carousel {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: var(--r-xl);
+  box-shadow: var(--sh-2);
+  overflow: hidden;
+}
+.carousel__stage {
+  overflow: hidden;
+}
+.carousel__track {
+  display: flex;
+  transition: transform 0.6s var(--ease-out);
+}
+.quote {
+  flex: 0 0 100%;
+  padding: clamp(30px, 4.6vw, 56px);
+  position: relative;
+}
+.quote__mark {
+  position: absolute;
+  top: 6px;
+  right: 24px;
+  font-family: var(--font-display);
+  font-size: 8rem;
+  line-height: 1;
+  color: var(--coral);
+  opacity: 0.16;
+  pointer-events: none;
+}
+.quote blockquote {
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 44, 'WONK' 1, 'opsz' 72;
+  font-weight: 450;
+  font-size: clamp(1.4rem, 2.5vw, 2.15rem);
+  line-height: 1.28;
+  letter-spacing: -0.02em;
+  color: var(--ink);
+  max-width: 26ch;
+  margin-bottom: 30px;
+  text-wrap: pretty;
+}
+.quote__by {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+}
+.quote__avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  flex: none;
+  display: grid;
+  place-items: center;
+  font-family: var(--font-mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #fff;
+  background: hsl(var(--h) 42% 46%);
+}
+.quote__meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.4;
+}
+.quote__meta strong {
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+.quote__meta em {
+  font-style: normal;
+  font-size: 0.84rem;
+  color: var(--muted);
+}
+
+.carousel__controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 18px clamp(30px, 4.6vw, 56px);
+  border-top: 1px solid var(--line);
+  background: var(--card-2);
+}
+.carousel__dots {
+  display: flex;
+  gap: 8px;
+}
+.carousel__dot {
+  width: 40px;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--paper-3);
+  overflow: hidden;
+  padding: 0;
+}
+.carousel__dot-fill {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: var(--coral);
+  border-radius: 99px;
+}
+.carousel__dot.is-active .carousel__dot-fill {
+  width: 100%;
+  transition: width 6.5s linear;
+}
+.carousel__arrows {
+  display: flex;
+  gap: 8px;
+}
+.carousel__arrow {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--line-2);
+  display: grid;
+  place-items: center;
+  color: var(--ink);
+  transition:
+    background 0.3s var(--ease-out),
+    color 0.3s var(--ease-out),
+    transform 0.3s var(--ease-out);
+}
+.carousel__arrow app-icon {
+  transform: rotate(180deg);
+}
+.carousel__arrow:hover {
+  background: var(--ink);
+  color: var(--on-ink);
+}
+.carousel__arrow--next app-icon {
+  transform: none;
+}
+
+.stories__logos {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 14px 40px;
+  margin-top: 34px;
+}
+.stories__logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-family: var(--font-display);
+  font-variation-settings: 'SOFT' 30, 'WONK' 1, 'opsz' 30;
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--ink-3);
+  opacity: 0.7;
+}
+.stories__logo-mark {
+  width: 12px;
+  height: 12px;
+  border-radius: 4px 4px 4px 0;
+  background: hsl(var(--h) 46% 50%);
+}

@@ -1,0 +1,64 @@
+<section class="section stories" id="stories">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-head__index">04 — Customers</p>
+      <div class="sec-head__row">
+        <h2 class="display-l">People teams talk about it<br />in the corridor, not the demo.</h2>
+      </div>
+    </header>
+
+    <div class="carousel" vReveal>
+      <div class="carousel__stage">
+        <div class="carousel__track" [style.transform]="'translateX(-' + index() * 100 + '%)'">
+          @for (q of quotes; track q.name) {
+            <figure class="quote">
+              <span class="quote__mark" aria-hidden="true">”</span>
+              <blockquote>{{ q.text }}</blockquote>
+              <figcaption class="quote__by">
+                <span class="quote__avatar" [style.--h]="q.hue">{{ q.initials }}</span>
+                <span class="quote__meta">
+                  <strong>{{ q.name }}</strong>
+                  <em>{{ q.role }} — {{ q.company }}</em>
+                </span>
+              </figcaption>
+            </figure>
+          }
+        </div>
+      </div>
+
+      <div class="carousel__controls">
+        <div class="carousel__dots" role="tablist" aria-label="Testimonials">
+          @for (q of quotes; track q.name; let i = $index) {
+            <button
+              class="carousel__dot"
+              [class.is-active]="index() === i"
+              (click)="go(i)"
+              [attr.aria-label]="'Testimonial ' + (i + 1)"
+              [attr.aria-selected]="index() === i"
+              role="tab"
+            >
+              <span class="carousel__dot-fill"></span>
+            </button>
+          }
+        </div>
+        <div class="carousel__arrows">
+          <button class="carousel__arrow" (click)="prev()" aria-label="Previous testimonial">
+            <app-icon name="arrow" [size]="17" />
+          </button>
+          <button class="carousel__arrow carousel__arrow--next" (click)="next()" aria-label="Next testimonial">
+            <app-icon name="arrow" [size]="17" />
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="stories__logos">
+      @for (q of quotes; track q.name) {
+        <li class="stories__logo">
+          <span class="stories__logo-mark" [style.--h]="q.hue"></span>
+          {{ q.company }}
+        </li>
+      }
+    </ul>
+  </div>
+</section>

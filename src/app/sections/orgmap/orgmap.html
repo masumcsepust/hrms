@@ -1,0 +1,96 @@
+<section class="section orgmap" id="orgmap">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-head__index">03 — One source of truth</p>
+      <div class="sec-head__row">
+        <h2 class="display-l">The org chart that<br />updates itself.</h2>
+        <p class="sec-head__desc">
+          Move someone, promote a team, open a new region — the graph follows instantly, because
+          every module reads from the same people and reporting data.
+        </p>
+      </div>
+    </header>
+
+    <div class="orgmap__layout">
+      <div class="orgmap__canvas" vReveal>
+        <svg viewBox="0 0 780 320" role="img" aria-label="Company org chart">
+          @for (e of edges; track e.from + e.to) {
+            <path
+              class="org-edge"
+              [class.is-lit]="highlightedEdges().has(e.to) || highlightedEdges().has(e.from)"
+              [class.is-dim]="active() && !highlightedEdges().has(e.to) && !highlightedEdges().has(e.from)"
+              [attr.d]="edgePath(e)"
+            />
+          }
+
+          @for (n of nodes; track n.id) {
+            <g
+              [class]="'org-node org-node--' + n.tone + (active() === n.id ? ' is-active' : '') + (dimmed().has(n.id) ? ' is-dim' : '')"
+              (mouseenter)="setActive(n.id)"
+              (mouseleave)="setActive(null)"
+              (focus)="setActive(n.id)"
+              (blur)="setActive(null)"
+              tabindex="0"
+              role="button"
+              [attr.aria-label]="n.label + ' — ' + n.role"
+            >
+              <rect
+                class="org-node__box"
+                [attr.x]="n.cx - 58"
+                [attr.y]="n.cy - 23"
+                width="116"
+                height="46"
+                rx="14"
+              />
+              <text class="org-node__label" [attr.x]="n.cx" [attr.y]="n.cy - 1">{{ n.label }}</text>
+              <text class="org-node__meta" [attr.x]="n.cx" [attr.y]="n.cy + 13">
+                {{ n.people }} people
+              </text>
+            </g>
+          }
+        </svg>
+        <p class="orgmap__hint">Hover a node to trace the team</p>
+        <p class="orgmap__swipe">← swipe to explore the team →</p>
+      </div>
+
+      <aside class="orgmap__side">
+        <div class="orgmap__detail">
+          @if (activeNode(); as node) {
+            <span [class]="'orgmap__tag orgmap__tag--' + node.tone">
+              {{ node.label }}
+            </span>
+            <p class="orgmap__role">{{ node.role }}</p>
+            <p class="orgmap__count">
+              <strong>{{ node.people }}</strong>
+              <span>people in this team</span>
+            </p>
+          } @else {
+            <span class="orgmap__tag">Company</span>
+            <p class="orgmap__role">Ama Kone, Chief Executive</p>
+            <p class="orgmap__count">
+              <strong>1,240</strong>
+              <span>people across 9 teams</span>
+            </p>
+          }
+          <p class="orgmap__note">
+            <app-icon name="bolt" [size]="14" />
+            Rebuilt from live data — never a stale export.
+          </p>
+        </div>
+
+        <div class="orgmap__feed">
+          <p class="orgmap__feed-label">Recent changes</p>
+          @for (c of changes; track c.who + c.when) {
+            <div class="feed-row">
+              <span class="feed-row__dot"></span>
+              <span class="feed-row__text">
+                <strong>{{ c.who }}</strong> {{ c.what }}
+              </span>
+              <span class="feed-row__when">{{ c.when }}</span>
+            </div>
+          }
+        </div>
+      </aside>
+    </div>
+  </div>
+</section>

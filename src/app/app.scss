@@ -1,0 +1,36 @@
+@use '../styles/tokens' as *;
+
+.to-top {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 90;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: var(--ink);
+  color: var(--on-ink);
+  display: grid;
+  place-items: center;
+  box-shadow: var(--sh-2);
+  animation: rise 0.4s var(--ease-out) both;
+  transition:
+    background 0.3s var(--ease-out),
+    transform 0.3s var(--ease-spring);
+}
+.to-top app-icon {
+  transform: rotate(-90deg);
+}
+.to-top:hover {
+  background: var(--coral);
+  transform: translateY(-3px);
+}
+
+@media (max-width: 640px) {
+  .to-top {
+    right: 16px;
+    bottom: 16px;
+    width: 42px;
+    height: 42px;
+  }
+}

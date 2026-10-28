@@ -1,0 +1,225 @@
+<section class="section bento" id="features">
+  <div class="container">
+    <header class="sec-head">
+      <p class="sec-head__index">01 — Product</p>
+      <div class="sec-head__row">
+        <h2 class="display-l">
+          One system.<br />Six jobs that used to be<br />six different tools.
+        </h2>
+        <p class="sec-head__desc">
+          Huma is deliberately opinionated: a small number of deeply-made modules, connected by
+          the same people, org and pay data. No tabs to babysit.
+        </p>
+      </div>
+    </header>
+
+    <div class="bento__grid">
+      @for (f of features; track f.title; let i = $index) {
+        <article
+          class="cell"
+          [class]="'cell cell--' + i"
+          vSpotlight
+          [vReveal]="(i % 3) * 70"
+        >
+          <span class="cell__spot" aria-hidden="true"></span>
+
+          <div class="cell__head">
+            <span class="cell__tag">{{ f.tag }}</span>
+            <span class="cell__icon"><app-icon [name]="f.art" [size]="19" /></span>
+          </div>
+
+          <h3 class="cell__title">{{ f.title }}</h3>
+          <p class="cell__body">{{ f.body }}</p>
+
+          <!-- ========== custom mini-UIs ========== -->
+          <div class="cell__art" aria-hidden="true">
+            @switch (f.art) {
+              @case ('pipeline') {
+                <div class="mini-pipeline">
+                  @for (col of pipelineCols; track col.name) {
+                    <div class="mp-col">
+                      <div class="mp-col__head">
+                        <span>{{ col.name }}</span>
+                        <em>{{ col.count }}</em>
+                      </div>
+                      @for (item of col.items; track item) {
+                        <div class="mp-card">
+                          <span class="mp-avatar">{{ item }}</span>
+                          <span class="mp-line"></span>
+                          <span class="mp-line mp-line--short"></span>
+                        </div>
+                      }
+                    </div>
+                  }
+                  <span class="mp-flyer">
+                    <span class="mp-avatar">YS</span>
+                    <span class="mp-line"></span>
+                  </span>
+                </div>
+              }
+
+              @case ('checklist') {
+                <div class="mini-check">
+                  <div class="mc-head">
+                    <span class="mc-head__role">Engineering · Senior · Remote</span>
+                    <span class="mc-head__badge">Template</span>
+                  </div>
+                  <div class="mc-list">
+                    @for (item of checklist; track item.label) {
+                      <div class="mc-row" [class.is-done]="item.done">
+                        <span class="mc-box">
+                          @if (item.done) {
+                            <svg width="10" height="10" viewBox="0 0 10 10">
+                              <path
+                                d="M1.6 5.2 3.9 7.6 8.4 2.8"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="1.7"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                              />
+                            </svg>
+                          }
+                        </span>
+                        <span class="mc-text">{{ item.label }}</span>
+                      </div>
+                    }
+                  </div>
+                  <div class="mc-ring">
+                    <svg viewBox="0 0 60 60" width="66" height="66">
+                      <circle cx="30" cy="30" r="25" fill="none" stroke="var(--line-2)" stroke-width="5" />
+                      <circle
+                        cx="30"
+                        cy="30"
+                        r="25"
+                        fill="none"
+                        stroke="var(--coral)"
+                        stroke-width="5"
+                        stroke-linecap="round"
+                        stroke-dasharray="157"
+                        stroke-dashoffset="47"
+                        transform="rotate(-90 30 30)"
+                      />
+                    </svg>
+                    <span class="mc-ring__label">70%</span>
+                  </div>
+                </div>
+              }
+
+              @case ('sentiment') {
+                <div class="mini-sentiment">
+                  @for (s of sentiment; track s.label) {
+                    <div class="ms-row">
+                      <span class="ms-label">{{ s.label }}</span>
+                      <span class="ms-track">
+                        <span class="ms-fill" [class]="'ms-fill ms-fill--' + s.tone" [style.width.%]="s.pct"></span>
+                      </span>
+                      <span class="ms-pct">{{ s.pct }}%</span>
+                    </div>
+                  }
+                  <p class="ms-note">
+                    <app-icon name="spark" [size]="13" />
+                    Sentiment up 9% since the last cycle
+                  </p>
+                </div>
+              }
+
+              @case ('leave') {
+                <div class="mini-leave">
+                  <div class="ml-days">
+                    @for (day of days; track $index) {
+                      <span class="ml-day" [class.is-off]="day.off">
+                        <em>{{ day.d }}</em>
+                      </span>
+                    }
+                  </div>
+                  <div class="ml-bars">
+                    <div class="ml-bar">
+                      <span class="ml-bar__k">Annual</span>
+                      <span class="ml-bar__t"><span class="ml-bar__f" style="width: 68%"></span></span>
+                      <span class="ml-bar__v">14 / 25</span>
+                    </div>
+                    <div class="ml-bar">
+                      <span class="ml-bar__k">Sick</span>
+                      <span class="ml-bar__t"><span class="ml-bar__f ml-bar__f--teal" style="width: 30%"></span></span>
+                      <span class="ml-bar__v">3 / 10</span>
+                    </div>
+                  </div>
+                </div>
+              }
+
+              @case ('org') {
+                <div class="mini-org">
+                  <svg viewBox="30 5 240 95" role="presentation">
+                    <path
+                      d="M150 34V52M52 52H248M52 52V70M150 52V70M248 52V70"
+                      stroke="var(--line-2)"
+                      stroke-width="1.4"
+                      fill="none"
+                    />
+                    <g class="mo-g">
+                      <circle cx="150" cy="24" r="11" fill="var(--coral-soft)" stroke="rgba(255,90,48,.45)" stroke-width="1.3" />
+                      <text x="150" y="27.5" text-anchor="middle" class="mo-text mo-text--sm">CEO</text>
+                    </g>
+                    <g class="mo-g">
+                      <circle cx="52" cy="80" r="11" fill="var(--card)" stroke="var(--line-2)" stroke-width="1.3" />
+                      <text x="52" y="83.5" text-anchor="middle" class="mo-text">Eng</text>
+                    </g>
+                    <g class="mo-g">
+                      <circle cx="150" cy="80" r="11" fill="var(--card)" stroke="var(--line-2)" stroke-width="1.3" />
+                      <text x="150" y="83.5" text-anchor="middle" class="mo-text">Design</text>
+                    </g>
+                    <g class="mo-g">
+                      <circle cx="248" cy="80" r="11" fill="var(--card)" stroke="var(--line-2)" stroke-width="1.3" />
+                      <text x="248" y="83.5" text-anchor="middle" class="mo-text">Ops</text>
+                    </g>
+                  </svg>
+                </div>
+              }
+
+              @case ('payslip') {
+                <div class="mini-pay">
+                  <div class="mp-doc">
+                    <div class="mp-doc__head">
+                      <span class="mp-doc__logo"><app-icon name="doc" [size]="15" /></span>
+                      <span class="mp-doc__title">Payslip — March</span>
+                    </div>
+                    @for (row of payslip; track row.k) {
+                      <div class="mp-doc__row">
+                        <span>{{ row.k }}</span><span>{{ row.v }}</span>
+                      </div>
+                    }
+                    <div class="mp-doc__row mp-doc__row--total">
+                      <span>Net pay</span><span>4,830</span>
+                    </div>
+                  </div>
+                  <span class="mp-stamp">PAID</span>
+
+                  <div class="mp-summary">
+                    <p class="mp-summary__title">March payroll — run</p>
+                    <div class="mp-summary__row">
+                      <span>Gross payroll</span><strong>3,918,400</strong>
+                    </div>
+                    <div class="mp-summary__row">
+                      <span>Tax &amp; pensions</span><strong>−1,046,220</strong>
+                    </div>
+                    <div class="mp-summary__row mp-summary__row--total">
+                      <span>Net paid out</span><strong>2,872,180</strong>
+                    </div>
+                    <div class="mp-summary__foot">
+                      <span class="mp-summary__badge">
+                        <span class="dot dot--live"></span>
+                        On time
+                      </span>
+                      <span>1,240 people paid in 4 minutes</span>
+                    </div>
+                  </div>
+                </div>
+              }
+            }
+          </div>
+        </article>
+      }
+    </div>
+  </div>
+</section>

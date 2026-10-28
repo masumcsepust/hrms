@@ -1,0 +1,55 @@
+<section class="cta grain" id="cta">
+  <span class="cta__glow" aria-hidden="true"></span>
+  <span class="cta__scribble" aria-hidden="true">
+    <svg width="120" height="80" viewBox="0 0 120 80" fill="none">
+      <path
+        d="M6 70C28 62 34 30 60 22c16-5 34 6 54-12"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-dasharray="5 6"
+      />
+      <path d="M104 4c4 2.6 7.4 5.6 10 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      <path d="M114 3c1.4 4 1.6 8 .6 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+    </svg>
+  </span>
+
+  <div class="container cta__inner">
+    <p class="cta__kicker">Ready when you are</p>
+    <h2 class="display cta__title">
+      Your people team deserves<br />better than a shared spreadsheet.
+    </h2>
+    <p class="cta__sub">
+      30 days free, no card, and a real human to help you migrate. Most teams are live in a week.
+    </p>
+
+    @if (sent()) {
+      <p class="cta__done">
+        <span class="cta__done-tick"><app-icon name="check" [size]="14" /></span>
+        You’re on the list — check your inbox for the next step.
+      </p>
+    } @else {
+      <form class="cta__form" (submit)="onSubmit($event)">
+        <label class="sr-only" for="cta-email">Work email</label>
+        <input
+          id="cta-email"
+          type="email"
+          name="email"
+          required
+          placeholder="you@company.com"
+          [value]="email()"
+          (input)="onInput($event)"
+        />
+        <button class="btn btn--coral" type="submit">
+          Get started
+          <span class="btn__arrow" aria-hidden="true"><app-icon name="arrow" [size]="16" /></span>
+        </button>
+      </form>
+    }
+
+    <p class="cta__fine">
+      <app-icon name="lock" [size]="14" />
+      We never email more than twice. Unsubscribe in one click.
+    </p>
+  </div>
+</section>
