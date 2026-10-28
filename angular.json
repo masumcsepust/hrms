@@ -53,7 +53,11 @@
             ],
             "styles": [
               "src/styles.scss"
-            ]
+            ],
+            "outputPath": {
+              "base": "dist",
+              "browser": ""
+            }
           },
           "configurations": {
             "production": {
@@ -86,7 +90,11 @@
                   "maximumError": "24kB"
                 }
               ],
-              "outputHashing": "all"
+              "outputHashing": "all",
+              "outputPath": {
+                "base": "dist/hrms-landing",
+                "browser": "browser"
+              }
             },
             "development": {
               "optimization": false,
